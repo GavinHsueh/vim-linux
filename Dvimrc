@@ -2,31 +2,31 @@
 "F1 : 显示帮助
 "F2 : 显隐菜单工具栏
 "F3 : 显隐nerdtree文档目录
-"F4 : 显隐tagbar插件
+"F4 : 
 "F5 : 打开easygrep查询工具
-"F6 : 开关SrcExpl 插件
-"F7 : 显隐MiniBufExplorer窗口
+"F6 : 
+"F7 : 
 "F8 : 打开ctages（程序被改动时，须运行一次，ctages插件才可有效)
 "F9 :
-"F10 : 激活/取消 paste模式
-"F11 : windows下gvim全屏切换
+"F10 : 
+"F11 : 
 "F12 : 当前窗口保存并退出
 "Ctrl+N : 新建标签
 "ctrl+]: 光标便跳转到函数的定义处
 "ctrl+t: 光标返回函数调用处
 "<C-Tab>: 切换各个标签
-"W+M : 打开/关闭WinManager插件（文档目录和taglist组合窗口）
-"t+b : 显隐tagbar插件
-"t+l : 显隐taglist插件
-"n+t : 显隐nerdtree插件
+",W+M : 打开/关闭WinManager插件（文档目录和taglist组合窗口）
+",t+b : 显隐tagbar插件
+",t+l : 显隐taglist插件
+",n+t : 显隐nerdtree插件
 "Ctrl+p : 一个全路径模糊文件，缓冲区，最近最多使用，... 检索插件(ctrlp.vim 插件)
-"ol : 左右纵向查看已打开的文件列表
-"ul : 上下横向查看已打开的文件列表
+",ol : 左右纵向查看已打开的文件列表
+",ul : 上下横向查看已打开的文件列表
 "Ctrl+e : emmet插件，快速写HTML代码
-"line : 开启/关闭对齐线
+",line : 开启/关闭对齐线
 ",r : mark插件，标记加亮不同标签
 " -  : 开关折叠
-"<c-w+o> : 多窗口时将当前窗口最大化
+",vip : 多窗口时将当前窗口最大化
 "m+字母 : 设置一个标记(a-z)
 "`+字母 : 跳转到指定标记处
 "**************************** end ********************************
@@ -189,7 +189,7 @@ let php_folding=0                                     " 打开自动折叠的功
 " -----------------------------------------------------------------------------
 syntax enable
 syntax on                   						              " 自动语法高亮
-:colo torte                 						              " 配色方案
+:colo molokai                						              " 配色方案
 set number                                            " 显示行号
 set laststatus=2                                      " 启用状态栏信息
 set statusline=\ %F%m%r%h%w%=\ [%{&ff}]\ [%Y]\ [%{&fileencoding}]\ [%04l,%04v][%p%%]\ [LEN=%L]
@@ -201,6 +201,21 @@ set helplang=cn                                       " 中文帮助
 set ruler                  							              " 打开状态栏标尺
 set magic                   						              " 设置魔术
 set completeopt=longest,menu  						            " 关掉智能补全时的预览窗口
+
+" 使状态行根据状态的不同，显示不同的颜色。
+function! InsertStatuslineColor(mode)
+if a:mode == 'i'
+  hi statusline guibg=white
+elseif a:mode == 'r'
+  hi statusline guibg=white
+else
+  hi statusline guibg=white
+endif
+endfunction
+au InsertEnter * call InsertStatuslineColor(v:insertmode)
+au InsertLeave * hi statusline guibg=white guifg=blue
+hi statusline guibg=white
+
 
 " 设置 gVim 窗口初始位置及大小
 if g:isGUI
@@ -256,6 +271,12 @@ map <C-Tab> :bnext<CR>
 map <S-Tab> :bp<CR>
 map <C-S>   :w!<CR>
 
+imap <M-h> <left>
+imap <M-l> <Right>
+imap <M-k> <Up>
+imap <M-j> <Down>
+
+
 " =============================================================================
 "                          << 以下为常用插件配置 >>
 " =============================================================================
@@ -291,15 +312,12 @@ Bundle 'Yggdroot/indentLine'
 Bundle 'Mark--Karkat'
 Bundle 'Shougo/neocomplcache.vim'
 Bundle 'scrooloose/nerdtree'
-Bundle 'wesleyche/SrcExpl'
 Bundle 'tpope/vim-surround'
 Bundle 'repeat.vim'
 Bundle 'scrooloose/syntastic'
 Bundle 'majutsushi/tagbar'
 Bundle 'taglist.vim'
 Bundle 'ZoomWin'
-Bundle 'rking/ag.vim'
-Bundle 'ggreer/the_silver_searcher'
 Bundle 'EasyGrep'
 
 
@@ -311,9 +329,9 @@ Bundle 'EasyGrep'
 " \be 全屏方式查看全部打开的文件列表
 noremap <silent> <s-q> :BufExplorer<CR>
 " \bs 上下方式查看
-noremap <silent> ul :BufExplorerHorizontalSplit<CR>
+"noremap <silent> ul :BufExplorerHorizontalSplit<CR>
 " \bv 左右方式查看
-noremap <silent> ol :BufExplorerVerticalSplit<CR>   "m是ALT键
+"noremap <silent> ol :BufExplorerVerticalSplit<CR>   "m是ALT键
 
 let g:bufExplorerDefaultHelp      = 0     " 不显示默认帮助信息
 let g:bufExplorerShowRelativePath = 1     " 显示相对路径
@@ -344,12 +362,13 @@ let g:user_emmet_expandabbr_key = '<c-e>'
 " 用于显示对齐线，与 indent_guides 在显示方式上不同，根据自己喜好选择了
 " 在终端上会有屏幕刷新的问题，这个问题能解决有更好了,仅支持VIM7.3以上版本
 " 开启/关闭对齐线
-nmap line :IndentLinesToggle<CR>
+"nmap line :IndentLinesToggle<CR>
+":command! Line :IndentLinesToggle
 
 " 设置Gvim的对齐线样式
 if g:isGUI
-    let g:indentLine_char = "┊"
-    let g:indentLine_first_char = "┊"
+    let g:indentLine_char = "|"
+    let g:indentLine_first_char = "|"
 endif
 
 " 设置终端对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色
@@ -357,6 +376,8 @@ let g:indentLine_color_term = 239
 
 " 设置 GUI 对齐线颜色，如果不喜欢可以将其注释掉采用默认颜色
 " let g:indentLine_color_gui = '#A4E57E'
+
+let g:indentLine_enabled=0
 
 
 " -----------------------------------------------------------------------------
@@ -381,7 +402,6 @@ let g:neocomplcache_enable_at_startup = 1     "vim 启动时启用插件
 " -----------------------------------------------------------------------------
 " 有目录村结构的文件浏览插件
 nnoremap <silent> <F3> :NERDTreeToggle<CR>  "打开/关闭NERDTree
-nnoremap <silent> nt :NERDTreeToggle<CR>
 let NERDTreeChDirMode=2 
 let NERDTreeMouseMode=2
 let NERDTreeWinPos="left"                   "在左侧显示NERDTree窗口
@@ -397,13 +417,6 @@ let NERDTreeDirArrows=0						"nerdtree插件目录箭头 1 显示箭头  0传统
 " 侠有什么其它解决方法希望不要保留呀
 filetype plugin on
 "let snippets_dir = $VIMRUNTIME.'\..\vimfiles\snippets\'
-
-
-" -----------------------------------------------------------------------------
-"  < SrcExpl 插件配置 >
-" -----------------------------------------------------------------------------
-" 增强源代码浏览，其功能就像Windows中的"Source Insight"
-nmap <F6> :SrcExplToggle<CR>                "打开/闭浏览窗口
 
 
 
@@ -451,7 +464,6 @@ endfunction
 " -----------------------------------------------------------------------------
 " 相对 TagList 能更好的支持面向对象
 " 常规模式下输入 tb 调用插件，如果有打开 TagList 窗口则先将其关闭
-nmap tb :TlistClose<CR>:TagbarToggle<CR>
 let g:tagbar_width=23                       "设置窗口宽度
 let g:tagbar_right=1                        "在右侧窗口中显示
 
@@ -462,8 +474,6 @@ let g:tagbar_right=1                        "在右侧窗口中显示
 " 高效地浏览源码, 其功能就像vc中的workpace
 " 那里面列出了当前文件中的所有宏,全局变量, 函数名等
 " 常规模式下输入 tl 调用插件，如果有打开 Tagbar 窗口则先将其关闭
-nmap tl :TagbarClose<CR>:Tlist<CR>
-nmap <F4> :TagbarClose<CR>:Tlist<CR>
 "let Tlist_Auto_Open=1       "当打开vim时自动启用taglist插件
 let Tlist_Show_One_File=1    "只显示当前文件的tag
 let Tlist_Exit_OnlyWindow=1  "如果taglist窗口是最后一个窗口，则退出vim
@@ -491,7 +501,6 @@ let Tlist_Use_Horiz_Window = 0
 
 "************************* WinManager插件设置 ****************************
 "W+M : 打开/关闭WinManager插件（文档目录和taglist组合窗口）
-nmap wm :WMToggle<cr>
 let g:winManagerWindowLayout='FileExplorer|TagList'
 "在进入vim时自动打开winmanager 
 let g:AutoOpenWinManager = 0
@@ -505,7 +514,8 @@ let g:bufExplorerMaxHeight=30
 "  < ZoomWin 插件配置 >
 " -----------------------------------------------------------------------------
 " 用于分割窗口的最大化与还原
-" 常规模式下按快捷键 <c-w>o 在最大化与还原间切换
+" 命令模式下通过,vip 在最大化与还原间切换
+":command! Vip :ZoomWin
 
 
 
@@ -538,15 +548,33 @@ au BufRead,BufNewFile,BufEnter * cd %:p:h
 " 下面的设置取消注释，并修改双引号中的键为你想要的，如修改为逗号键。
 let mapleader = ","
 
+"*****************************解决PHP/html/CSS/JS混编缩进问题**************************
+nnoremap <leader>html :set filetype=html<CR>
+nnoremap <leader>php :set filetype=php<CR>
+nnoremap <leader>css :set filetype=css<CR>
+nnoremap <leader>js :set filetype=javascript<CR>
+"**************************************************************************************
+
+"**********************************自定义字母组合快捷键设置**********************************
+nnoremap <leader>vip :ZoomWin<CR>
+nnoremap <leader>line :IndentLinesToggle<CR>
+nnoremap <leader>ul :BufExplorerHorizontalSplit<CR>
+nnoremap <leader>ol :BufExplorerVerticalSplit<CR>
+nnoremap <leader>wm :WMToggle<CR>
+nnoremap <leader>tl :TagbarClose<CR>:Tlist<CR>
+nnoremap <leader>tb :TlistClose<CR>:TagbarToggle<CR>
+nnoremap <leader>nt :NERDTreeToggle<CR>
 
 "******************************* 括号自动补全 *************************************
 inoremap ( ()<Esc>i
 inoremap [ []<Esc>i
-inoremap { {<CR>}<Esc>O
+"inoremap { {<CR>}<Esc>O
+inoremap { {}<Esc>i
 "autocmd Syntax html,vim inoremap < <lt>><Esc>i| inoremap > <c-r>=ClosePair('>')<CR>
 inoremap ) <c-r>=ClosePair(')')<CR>
 inoremap ] <c-r>=ClosePair(']')<CR>
-inoremap } <c-r>=CloseBracket()<CR>
+"inoremap } <c-r>=CloseBracket()<CR>
+inoremap } <c-r>=ClosePair('}')<CR>
 inoremap " <c-r>=QuoteDelim('"')<CR>
 inoremap ' <c-r>=QuoteDelim("'")<CR>
 function! ClosePair(char)
@@ -596,30 +624,14 @@ endf
 	call setline(12,'</html>')
 
   endf
-  map html :call AddTitlehtml()<CR>
-
+:command! Html :call AddTitlehtml()
 "*********************************** end *******************************************************
 
-
-"*********************************** PHP 初始化模版 ********************************************
-
-function! AddTitlephp()
-	call setline(1,'<?php')
-	call setline(2,'')
-	call setline(3,'')
-	call setline(4,'')
-	call setline(5,'?>')
-
-  endf
-  map php :call AddTitlephp()<CR>
-
-"*********************************** end ********************************************************
 
 " 模板。
 autocmd BufNewFile  model.php    0r ~/.vim/template/model.php
 autocmd BufNewFile  control.php  0r ~/.vim/template/control.php
 autocmd BufNewFile  *.html.php   0r ~/.vim/template/html.php
-autocmd BufNewFile  *.html   0r ~/.vim/template/tpl.html
 
 "source ~/.vim/plugin/php-doc.vim 
 "inoremap <C-P> <ESC>:call PhpDocSingle()<CR>i 
