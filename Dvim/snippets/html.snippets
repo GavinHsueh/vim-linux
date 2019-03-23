@@ -73,11 +73,6 @@ snippet meta
 	<meta name="${1:name}" content="${2:content}"/>${3}
 snippet option
 	<option value="${1:option}">${2:$1}</option>${3}
-snippet select
-	<select name="${1:some_name}" id="${2:$1}">
-		<option value="${3:option}">${4:$3}</option>
-		${5}
-	</select>
 snippet table
 	<table border="${1:0}" width="${2}" height="${3}">
 		${4}
@@ -92,55 +87,6 @@ snippet th
 	<th>${1}</th>${2}
 snippet textarea
 	<textarea name="${1:Name}" rows="${2:8}" cols="${3:40}">${4}</textarea>${5}
-snippet ,,
-	<{${1}}>${2}
-snippet caption
-	<caption><h2>${1}</h2></caption>${2}
-
-# ThinkPHP模版标签
-snippet volist
-	<volist name="${1:data}" id="${2:vo}">
-		${3}
-	</volist>
-snippet include
-	<include file="${1}" />${2}
-snippet import
-	<import type='${1:Css.style}' file="${2}" />
-snippet load
-	<load href="${1}" />${2}
-snippet foreach
-	<foreach name="${1:data}" item="${2:vo}">
-	${3}
-	</foreach>
-snippet for
-	<for start="${1}" end="${2}" >
-	</for>
-snippet switch
-	<switch name="变量" >
-	<case value="值1" break="0或1">输出内容1</case>
-	<case value="值2">输出内容2</case>
-	<default />默认情况
-	</switch>
-snippet define
-	<define name="${1:NAME}"value="${2}"/>
-snippet assign
-	<assign name="${1:val}" value="${2}" />
-snippet if
-	<if condition="${1}"> ${2}
-	<elseif condition="${3}"/>${4}
-	<else /> ${5}
-	</if>
-snippet block
-	<block name="${1:NAME}">${2}</block>${3}
-snippet extend
-	<extend name="${1:NAME}" />${2}
-snippet layout
-	<layout name="${1:NAME}" />${2}
-snippet bootstrap
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-	<script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>${1}
 
 # ZUI框架
 snippet zui:load
